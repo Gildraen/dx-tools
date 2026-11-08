@@ -1,0 +1,24 @@
+version: '3'
+
+tasks:
+  default:
+    desc: Show available tasks.
+    cmds:
+      - task --list
+
+  validate:
+    desc: Check required files, shell syntax, and Taskfile integrity.
+    cmds:
+      - test -x bin/dx-mcp
+      - test -f README.md && test -f AGENTS.md
+      - bash -n bin/dx-mcp
+      - for script in tests/*.sh; do bash -n "$script" || exit; done
+      - task --taskfile Taskfile.yml --list >/dev/null
+      - task --taskfile taskfiles/base.yml --list >/dev/null
+
+  test:
+    desc: Run offline MCP and tools home contract tests.
+    cmds:
+      - bash tests/test-dx-mcp-image.sh
+      - env -u DX_TOOLS_HOME bash tests/test-task-doctor.sh
+      - bash tests/test-tools-contract.sh
