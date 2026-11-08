@@ -1,0 +1,37 @@
+version: '3'
+
+tasks:
+  doctor:
+    desc: Print the resolved tools home and whether it is present.
+    cmds:
+      - |
+        if [ -n "${DX_TOOLS_HOME:-}" ]; then
+          echo "DX_TOOLS_HOME=$DX_TOOLS_HOME"
+          if [ -d "$DX_TOOLS_HOME" ]; then
+            echo "runtime: found"
+          else
+            echo "runtime: NOT found" >&2
+            exit 1
+          fi
+          exit 0
+        fi
+        dx_home="${DX_HOME:-}"
+        if [ -z "$dx_home" ]; then
+          if [ -d "$PWD/.devcontainer/.dx/.devcontainer/src/dx/runtime" ]; then
+            dx_home="$PWD/.devcontainer/.dx/.devcontainer/src/dx/runtime"
+          else
+            dx_home="/opt/dx"
+          fi
+        fi
+        echo "DX_HOME=$dx_home"
+        if [ -d "$dx_home" ]; then
+          echo "runtime: found"
+        else
+          echo "runtime: NOT found" >&2
+          exit 1
+        fi
+
+  mcp:github:
+    desc: Run the official GitHub MCP server through the DX launcher.
+    cmds:
+      - dx-mcp github {{.CLI_ARGS}}
