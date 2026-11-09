@@ -27,9 +27,17 @@ includes:
   dx: /path/to/dx-tools/taskfiles/base.yml
 ```
 
-The remote form is
-`https://github.com/Gildraen/dx-tools.git//taskfiles/base.yml?ref=<published-ref>`.
-It requires a published Git ref; this repository does not supply releases.
+The candidate consumption version is `v0.1.0-rc.1`, a prerelease, not a stable
+release. With Task v3.53.1, the remote include uses the direct HTTP URL:
+
+```yaml
+version: '3'
+includes:
+  dx: https://github.com/Gildraen/dx-tools/raw/v0.1.0-rc.1/taskfiles/base.yml
+```
+
+Allow `github.com` in Task's trusted hosts (`TASK_REMOTE_TRUSTED_HOSTS=github.com`).
+The URL selects the fixed version tag, not a floating branch.
 
 `task dx:doctor` prints the selected home and checks directory existence
 offline. It does not check authentication, Docker, or installation contents.
