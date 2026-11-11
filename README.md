@@ -4,7 +4,10 @@ Portable GitHub MCP launcher and shared Task helpers. This repository does
 not install tools or provide agent rules, a Dev Container Feature, or a
 PATH wrapper.
 
-## MCP
+  ```yaml
+  version: '3'
+  includes:
+  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.1.0-rc.1
 
 `bin/dx-mcp github [server options...]` runs the official
 `ghcr.io/github/github-mcp-server:v1.10.1` image using Bash and Docker.
@@ -27,17 +30,18 @@ includes:
   dx: /path/to/dx-tools/taskfiles/base.yml
 ```
 
-The candidate consumption version is `v0.1.0-rc.1`, a prerelease, not a stable
-release. With Task v3.53.1, the remote include uses the direct HTTP URL:
+The candidate tag is `v0.1.0-rc.1`, a prerelease, not a stable release; it
+resolves to commit `6630f37ffdc3a8c51af0f4795145a4743a61584b`. With Task
+v3.53.1, the remote include uses the direct HTTP URL pinned to that SHA:
 
 ```yaml
 version: '3'
 includes:
-  dx: https://github.com/Gildraen/dx-tools/raw/v0.1.0-rc.1/taskfiles/base.yml
+  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.1.0-rc.1
 ```
 
 Allow `github.com` in Task's trusted hosts (`TASK_REMOTE_TRUSTED_HOSTS=github.com`).
-The URL selects the fixed version tag, not a floating branch.
+The URL selects the fixed commit; the trailing tag comment is Renovate's update stream.
 
 `task dx:doctor` prints the selected home and checks directory existence
 offline. It does not check authentication, Docker, or installation contents.
