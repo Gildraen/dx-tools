@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# renovate: datasource=docker depName=ghcr.io/github/github-mcp-server
+GITHUB_MCP_IMAGE="ghcr.io/github/github-mcp-server:v1.10.1"
+
+run_github() {
+  command -v docker >/dev/null 2>&1 || {
+    echo "dx-mcp: Docker is required to run the official GitHub MCP server" >&2
+    exit 1
+  }
+
+  exec docker run --rm -i \
+    -p 127.0.0.1:8085:8085 \
+    -e GITHUB_OAUTH_CALLBACK_PORT=8085 \
+    "$GITHUB_MCP_IMAGE" stdio "$@"
+}
+
+main() {
+  if [ "${1:-}" != "github" ]; then
+    echo "usage: dx-mcp github [server options...]" >&2
+    exit 2
+  fi
+
+  shift
+  run_github "$@"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi
