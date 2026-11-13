@@ -4,11 +4,6 @@ Portable GitHub MCP launcher and shared Task helpers. This repository does
 not install tools or provide agent rules, a Dev Container Feature, or a
 PATH wrapper.
 
-  ```yaml
-  version: '3'
-  includes:
-  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.1.0-rc.1
-
 `bin/dx-mcp github [server options...]` runs the official
 `ghcr.io/github/github-mcp-server:v1.10.1` image using Bash and Docker.
 Docker must have access to a running daemon. The launcher forwards server
@@ -30,14 +25,14 @@ includes:
   dx: /path/to/dx-tools/taskfiles/base.yml
 ```
 
-The candidate tag is `v0.1.0-rc.1`, a prerelease, not a stable release; it
-resolves to commit `6630f37ffdc3a8c51af0f4795145a4743a61584b`. With Task
+The `v0.0.0` tag resolves to commit
+`6630f37ffdc3a8c51af0f4795145a4743a61584b`. With Task
 v3.53.1, the remote include uses the direct HTTP URL pinned to that SHA:
 
 ```yaml
 version: '3'
 includes:
-  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.1.0-rc.1
+  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.0.0
 ```
 
 Allow `github.com` in Task's trusted hosts (`TASK_REMOTE_TRUSTED_HOSTS=github.com`).

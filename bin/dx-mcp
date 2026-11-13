@@ -13,7 +13,7 @@ run_github() {
   exec docker run --rm -i \
     -p 127.0.0.1:8085:8085 \
     -e GITHUB_OAUTH_CALLBACK_PORT=8085 \
-    "$GITHUB_MCP_IMAGE" "$@"
+    "$GITHUB_MCP_IMAGE" stdio "$@"
 }
 
 main() {

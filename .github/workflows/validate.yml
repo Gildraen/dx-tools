@@ -3,7 +3,7 @@ name: validate
 on:
   push:
     branches:
-      - feat/component-extraction
+      - main
   pull_request:
   workflow_dispatch:
 
