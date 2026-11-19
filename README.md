@@ -4,8 +4,8 @@ Portable GitHub MCP launcher and shared Task helpers. This repository does
 not install tools or provide agent rules, a Dev Container Feature, or a
 PATH wrapper.
 
-`bin/dx-mcp github [server options...]` runs the official
-`ghcr.io/github/github-mcp-server:v1.10.1` image using Bash and Docker.
+`bin/dx-mcp github [server options...]` runs the official GitHub MCP server
+image pinned in this launcher using Bash and Docker.
 Docker must have access to a running daemon. The launcher forwards server
 options and Docker's exit status, binds the OAuth callback to
 `127.0.0.1:8085`, and sets `GITHUB_OAUTH_CALLBACK_PORT=8085`.
@@ -17,7 +17,7 @@ owned by the installer that provides them.
 
 ## Task helpers
 
-With Task v3 installed, include the local file from a consumer Taskfile:
+With Go Task v3, include the local file from a consumer Taskfile:
 
 ```yaml
 version: '3'
@@ -25,18 +25,19 @@ includes:
   dx: /path/to/dx-tools/taskfiles/base.yml
 ```
 
-The `v0.0.0` tag resolves to commit
-`6630f37ffdc3a8c51af0f4795145a4743a61584b`. With Task
-v3.53.1, the remote include uses the direct HTTP URL pinned to that SHA:
+For a remote include, use a direct HTTP URL with the commit SHA in its path
+and the full release tag in a trailing comment:
 
 ```yaml
 version: '3'
 includes:
-  dx: https://github.com/Gildraen/dx-tools/raw/6630f37ffdc3a8c51af0f4795145a4743a61584b/taskfiles/base.yml # v0.0.0
+  dx: https://github.com/Gildraen/dx-tools/raw/<commit-sha>/taskfiles/base.yml # <full-semver-tag>
 ```
 
-Allow `github.com` in Task's trusted hosts (`TASK_REMOTE_TRUSTED_HOSTS=github.com`).
-The URL selects the fixed commit; the trailing tag comment is Renovate's update stream.
+Use a Task release that supports native HTTP remote includes and allow
+`github.com` in Task's trusted hosts (`TASK_REMOTE_TRUSTED_HOSTS=github.com`).
+The URL SHA pins the file revision; the trailing tag records the release for
+version tracking. Automated Renovate updates require a matching configuration.
 
 `task dx:doctor` prints the selected home and checks directory existence
 offline. It does not check authentication, Docker, or installation contents.
@@ -71,7 +72,7 @@ selection while the old runtime remains installed.
 
 ## Development
 
-Run `task validate` and `task test` with Bash and Task v3. MCP tests use a
+Run `task validate` and `task test` with Bash and Go Task. MCP tests use a
 fake Docker CLI and do not contact GitHub or a Docker daemon. The legacy
 doctor test checks success when `/opt/dx` exists and failure when it is absent.
 
