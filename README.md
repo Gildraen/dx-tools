@@ -72,9 +72,24 @@ selection while the old runtime remains installed.
 
 ## Development
 
-Run `task validate` and `task test` with Bash and Go Task. MCP tests use a
-fake Docker CLI and do not contact GitHub or a Docker daemon. The legacy
 doctor test checks success when `/opt/dx` exists and failure when it is absent.
+Run `task validate` and `task test` with Bash, Node.js and Go Task. MCP tests
+use a fake Docker CLI and do not contact GitHub or a Docker daemon. The legacy
+doctor test checks success when `/opt/dx` exists and failure when it is absent.
+
+## Releases
+
+After `validate` succeeds on a push to `main`, Release Please opens or updates
+a release PR from Conventional Commits. Merge it to create a GitHub Release and
+a stable tag without `v`; the historical `v` tags remain unchanged. Release
+Please starts from the current tag and increments the manifest and `version.txt`
+together. The Renovate pin tracks preset `0.2.0`, which must be published before
+this PR is merged.
+
+Configure `RELEASE_PLEASE_TOKEN` as a fine-grained repository secret so CI runs
+automatically on the release PR. GitHub suppresses workflow runs for pull
+requests created with `GITHUB_TOKEN`; without the secret, required PR checks
+may not run and must be handled before merging.
 
 Set `DX_AGENTS_HOME` to a supplied `dx-agents` checkout to load its root
 `AGENTS.md` through this repository's minimal bootstrap. Agent guidance is

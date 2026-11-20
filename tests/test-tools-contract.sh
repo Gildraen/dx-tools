@@ -44,4 +44,18 @@ else
 fi
 grep -Fq 'Docker is required' "$workdir/output" || fail "missing Docker diagnostic changed"
 
+node <<'EOF'
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const config = JSON.parse(fs.readFileSync('release-please-config.json', 'utf8'));
+const manifest = JSON.parse(fs.readFileSync('.release-please-manifest.json', 'utf8'));
+assert.equal(config['include-v-in-tag'], false);
+assert.equal(config['bootstrap-sha'], 'f7b5a41f48026571cafe3e7d287dd0234db9c0b6');
+assert.equal(config.packages['.']['release-type'], 'simple');
+assert.equal(config.packages['.']['version-file'], 'version.txt');
+assert.equal(manifest['.'], '0.1.0');
+assert.equal(fs.readFileSync('version.txt', 'utf8').trim(), manifest['.']);
+assert.equal(JSON.parse(fs.readFileSync('renovate.json', 'utf8')).extends[0], 'github>Gildraen/renovate-config#0.2.0');
+EOF
+
 echo "tools home priority, legacy fallback, callback, and missing Docker contracts pass"
