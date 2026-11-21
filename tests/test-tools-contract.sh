@@ -63,14 +63,16 @@ assert.match(releaseWorkflow, /workflows: \[validate\]/);
 assert.match(releaseWorkflow, /types: \[completed\]/);
 assert.match(releaseWorkflow, /branches: \[main\]/);
 assert.match(releaseWorkflow, /if: github\.event\.workflow_run\.conclusion == 'success'/);
-assert.match(releaseWorkflow, /permissions:\n      contents: write\n      issues: write\n      pull-requests: write/);
-assert.match(releaseWorkflow, /reusable-release-please\.yml@b04cfb98139aa06de661c70a128452184f2004dd # 0\.2\.0/);
+assert.match(releaseWorkflow, /permissions:\n      contents: read/);
+assert.match(releaseWorkflow, /reusable-release-please\.yml@495bb9b377719414123af8c329b02aeff58ab440 # 0\.2\.0/);
 assert.match(releaseWorkflow, /config-file: release-please-config\.json/);
 assert.match(releaseWorkflow, /manifest-file: \.release-please-manifest\.json/);
 assert.match(releaseWorkflow, /target-branch: main/);
 assert.match(releaseWorkflow, /expected-sha: \$\{\{ github\.event\.workflow_run\.head_sha \}\}/);
-assert.match(releaseWorkflow, /release-please-token: \$\{\{ secrets\.RELEASE_PLEASE_TOKEN \|\| secrets\.GITHUB_TOKEN \}\}/);
 assert.doesNotMatch(releaseWorkflow, /googleapis\/release-please-action/);
+assert.match(releaseWorkflow, /app-client-id: \$\{\{ vars\.RELEASE_PLEASE_APP_CLIENT_ID \}\}/);
+assert.match(releaseWorkflow, /app-private-key: \$\{\{ secrets\.RELEASE_PLEASE_APP_PRIVATE_KEY \}\}/);
+assert.doesNotMatch(releaseWorkflow, /RELEASE_PLEASE_TOKEN|GITHUB_TOKEN/);
 assert.doesNotMatch(validateWorkflow, /reusable-release-please|release-please-action/);
 EOF
 
