@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # renovate: datasource=docker depName=ghcr.io/github/github-mcp-server
-GITHUB_MCP_IMAGE="ghcr.io/github/github-mcp-server:v1.14.0"
+GITHUB_MCP_IMAGE="ghcr.io/github/github-mcp-server:v2.2.0"
 
 run_github() {
   command -v docker >/dev/null 2>&1 || {
