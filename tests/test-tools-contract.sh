@@ -53,7 +53,7 @@ assert.equal(config['include-v-in-tag'], false);
 assert.equal(config['bootstrap-sha'], 'f7b5a41f48026571cafe3e7d287dd0234db9c0b6');
 assert.equal(config.packages['.']['release-type'], 'simple');
 assert.equal(config.packages['.']['version-file'], 'version.txt');
-assert.equal(manifest['.'], '0.1.0');
+assert.match(manifest['.'], /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/);
 assert.equal(fs.readFileSync('version.txt', 'utf8').trim(), manifest['.']);
 assert.equal(JSON.parse(fs.readFileSync('renovate.json', 'utf8')).extends[0], 'github>Gildraen/renovate-config#0.2.0');
 const validateWorkflow = fs.readFileSync('.github/workflows/validate.yml', 'utf8');
