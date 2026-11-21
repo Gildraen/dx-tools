@@ -34,19 +34,3 @@ jobs:
 
       - name: Test without DX environment
         run: env -u DX_HOME -u DX_TOOLS_HOME task test
-
-  release:
-    name: Open or update release PR
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: validate
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-    uses: Gildraen/ci-workflows/.github/workflows/reusable-release-please.yml@4b4026ff669b5fe8da2aa83e216591bb09e1e8a1 # 0.2.0
-    with:
-      config-file: release-please-config.json
-      manifest-file: .release-please-manifest.json
-      target-branch: main
-    secrets:
-      release-please-token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}

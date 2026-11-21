@@ -79,13 +79,14 @@ doctor test checks success when `/opt/dx` exists and failure when it is absent.
 
 ## Releases
 
-After `validate` succeeds on a push to `main`, Release Please opens or updates
-a release PR from Conventional Commits. Merge it to create a GitHub Release and
+After `validate` succeeds on a push to `main`, the separate `release-please.yml`
+workflow waits for that run and calls the shared Release Please workflow. It
+opens or updates a release PR from Conventional Commits. Merge it to create a GitHub Release and
 a stable tag without `v`; the historical `v` tags remain unchanged. Release
 Please starts from the current tag and increments the manifest and `version.txt`
 together. The release job calls the shared Release Please workflow from
 `Gildraen/ci-workflows`, pinned to commit
-`4b4026ff669b5fe8da2aa83e216591bb09e1e8a1` (future tag `0.2.0`). Publish that
+`b04cfb98139aa06de661c70a128452184f2004dd` (future tag `0.2.0`). Publish that
 ci-workflows release before merging this PR. The Renovate pin tracks preset
 `0.2.0`, which must also be published before this PR is merged.
 
