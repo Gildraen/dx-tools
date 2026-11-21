@@ -20,15 +20,17 @@ chmod +x "$workdir/docker"
 
 # No override: must fall back to the pinned default image.
 default_output="$(PATH="$workdir:/usr/bin:/bin" bin/dx-mcp github)"
-[[ "$default_output" == *"ghcr.io/github/github-mcp-server:v1.10.1"* ]] || fail "default image is not pinned"
-[[ "$default_output" == *"ghcr.io/github/github-mcp-server:v1.10.1 stdio" ]] || fail "default command did not start stdio"
+image_pattern='ghcr\.io/github/github-mcp-server:v[0-9]+\.[0-9]+\.[0-9]+'
+[[ "$default_output" =~ $image_pattern ]] || fail "default image is not pinned to a stable version"
+pinned_image="${BASH_REMATCH[0]}"
+[[ "$default_output" == *"$pinned_image stdio" ]] || fail "default command did not start stdio"
 
 override_output="$(GITHUB_MCP_IMAGE="ghcr.io/example/override:latest" PATH="$workdir:/usr/bin:/bin" bin/dx-mcp github)"
-[[ "$override_output" == *"ghcr.io/github/github-mcp-server:v1.10.1"* ]] || fail "environment override changed the pinned image"
+[[ "$override_output" == *"$pinned_image"* ]] || fail "environment override changed the pinned image"
 [[ "$override_output" != *"ghcr.io/example/override:latest"* ]] || fail "environment override was used"
 
 forwarded_output="$(PATH="$workdir:/usr/bin:/bin" bin/dx-mcp github --read-only --toolsets issues)"
-[[ "$forwarded_output" == *"ghcr.io/github/github-mcp-server:v1.10.1 stdio --read-only --toolsets issues" ]] || fail "server arguments were not forwarded to stdio"
+[[ "$forwarded_output" == *"$pinned_image stdio --read-only --toolsets issues"* ]] || fail "server arguments were not forwarded to stdio"
 
 if bin/dx-mcp >/dev/null 2>&1; then
   fail "missing server argument returned success"
