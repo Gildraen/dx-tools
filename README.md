@@ -86,14 +86,14 @@ a stable tag without `v`; the historical `v` tags remain unchanged. Release
 Please starts from the current tag and increments the manifest and `version.txt`
 together. The release job calls the shared Release Please workflow from
 `Gildraen/ci-workflows`, pinned to commit
-`b04cfb98139aa06de661c70a128452184f2004dd` (future tag `0.2.0`). Publish that
+`495bb9b377719414123af8c329b02aeff58ab440` (future tag `0.2.0`). Publish that
 ci-workflows release before merging this PR. The Renovate pin tracks preset
 `0.2.0`, which must also be published before this PR is merged.
 
-Configure `RELEASE_PLEASE_TOKEN` as a fine-grained repository secret so CI runs
-automatically on the release PR. GitHub suppresses workflow runs for pull
-requests created with `GITHUB_TOKEN`; without the secret, required PR checks
-may not run and must be handled before merging.
+Install the Release Please GitHub App on this repository with Contents, Issues,
+and Pull requests write permissions. Configure repository variable
+`RELEASE_PLEASE_APP_CLIENT_ID` and repository Actions secret
+`RELEASE_PLEASE_APP_PRIVATE_KEY`. App-created release PRs trigger normal CI.
 
 Set `DX_AGENTS_HOME` to a supplied `dx-agents` checkout to load its root
 `AGENTS.md` through this repository's minimal bootstrap. Agent guidance is
