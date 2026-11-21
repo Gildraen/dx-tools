@@ -60,6 +60,7 @@ const validateWorkflow = fs.readFileSync('.github/workflows/validate.yml', 'utf8
 const releaseWorkflow = fs.readFileSync('.github/workflows/release-please.yml', 'utf8');
 assert.match(releaseWorkflow, /workflows: \[validate\]/);
 assert.match(releaseWorkflow, /types: \[completed\]/);
+assert.match(releaseWorkflow, /branches: \[main\]/);
 assert.match(releaseWorkflow, /if: github\.event\.workflow_run\.conclusion == 'success' && github\.event\.workflow_run\.head_branch == 'main' && github\.event\.workflow_run\.event == 'push'/);
 assert.match(releaseWorkflow, /permissions:\n      contents: write\n      issues: write\n      pull-requests: write/);
 assert.match(releaseWorkflow, /reusable-release-please\.yml@b04cfb98139aa06de661c70a128452184f2004dd # 0\.2\.0/);
