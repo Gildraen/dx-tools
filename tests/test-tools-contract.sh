@@ -64,7 +64,7 @@ assert.match(releaseWorkflow, /types: \[completed\]/);
 assert.match(releaseWorkflow, /branches: \[main\]/);
 assert.match(releaseWorkflow, /if: github\.event\.workflow_run\.conclusion == 'success'/);
 assert.match(releaseWorkflow, /permissions:\n      contents: read/);
-assert.match(releaseWorkflow, /reusable-release-please\.yml@495bb9b377719414123af8c329b02aeff58ab440 # 0\.2\.0/);
+assert.match(releaseWorkflow, /reusable-release-please\.yml@[0-9a-f]{40} # 0\.2\.0/);
 assert.match(releaseWorkflow, /config-file: release-please-config\.json/);
 assert.match(releaseWorkflow, /manifest-file: \.release-please-manifest\.json/);
 assert.match(releaseWorkflow, /target-branch: main/);
